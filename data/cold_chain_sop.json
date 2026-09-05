@@ -1,0 +1,20 @@
+[
+  {
+    "id": "SOP-TEMP-01",
+    "title": "Excursion de température supérieure à 8°C",
+    "keywords": ["temperature", "température", "excursion", "critical", "critique", "warm", "chaud"],
+    "guidance": "Au-delà de 8°C pendant 30 minutes ou plus, mettre le stock en quarantaine, créer un incident CRITICAL et demander la validation de l'opérateur de garde avant tout transfert ou destruction."
+  },
+  {
+    "id": "SOP-SENSOR-02",
+    "title": "Capteur hors ligne ou télémétrie absente",
+    "keywords": ["sensor", "capteur", "offline", "hors ligne", "telemetry", "télémétrie"],
+    "guidance": "Ne jamais conclure que le stock est sûr sans mesure. Créer un incident UNKNOWN et demander une inspection humaine sur site."
+  },
+  {
+    "id": "SOP-NORMAL-03",
+    "title": "Plage normale de conservation",
+    "keywords": ["normal", "normale", "safe", "sûr", "range", "plage", "conservation"],
+    "guidance": "Entre 2°C et 8°C, sans excursion active et avec un capteur opérationnel, poursuivre la surveillance normale."
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "clinic_id": "KCARE-ADJ-01",
+    "name": "Centre de santé d'Adjarra",
+    "department": "Ouémé",
+    "device_id": "FRIDGE-ADJ-07",
+    "temperature_c": 12.4,
+    "excursion_minutes": 52,
+    "sensor_status": "OK",
+    "stock": "Vaccins infantiles - lot VX-204",
+    "last_update": "2026-09-04T09:42:00+01:00"
+  },
+  {
+    "clinic_id": "KCARE-OUI-02",
+    "name": "Clinique communautaire de Ouidah",
+    "department": "Atlantique",
+    "device_id": "FRIDGE-OUI-03",
+    "temperature_c": 5.4,
+    "excursion_minutes": 0,
+    "sensor_status": "OK",
+    "stock": "Vaccins infantiles - lot VX-118",
+    "last_update": "2026-09-04T09:44:00+01:00"
+  },
+  {
+    "clinic_id": "KCARE-DJO-03",
+    "name": "Centre de santé de Djougou",
+    "department": "Donga",
+    "device_id": "FRIDGE-DJO-02",
+    "temperature_c": 0,
+    "excursion_minutes": 0,
+    "sensor_status": "OFFLINE",
+    "stock": "Vaccins infantiles - lot VX-311",
+    "last_update": "2026-09-04T08:31:00+01:00"
+  }
+]

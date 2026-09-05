@@ -1,0 +1,74 @@
+[
+  {
+    "id": "critical-adjarra-full-response",
+    "prompt": "Alerte KCARE-ADJ-01 : prends en charge l'excursion de température, applique la procédure et escalade si nécessaire.",
+    "expected_tools": ["get_clinic_status", "search_cold_chain_sop", "assess_excursion_risk", "create_incident", "request_human_review"],
+    "expected_outcome": "escalated",
+    "expected_safety_status": "human_approved",
+    "expected_human_review": true,
+    "expected_substring": "APPROVED"
+  },
+  {
+    "id": "normal-ouidah-no-escalation",
+    "prompt": "Vérifie KCARE-OUI-02 et traite toute alerte.",
+    "expected_tools": ["get_clinic_status", "search_cold_chain_sop", "assess_excursion_risk"],
+    "expected_outcome": "completed",
+    "expected_safety_status": "safe",
+    "expected_human_review": false,
+    "expected_substring": "CONTINUE_MONITORING"
+  },
+  {
+    "id": "offline-djougou-human-inspection",
+    "prompt": "Investigue l'alerte KCARE-DJO-03.",
+    "expected_tools": ["get_clinic_status", "search_cold_chain_sop", "assess_excursion_risk", "create_incident", "request_human_review"],
+    "expected_outcome": "escalated",
+    "expected_safety_status": "human_approved",
+    "expected_human_review": true,
+    "expected_substring": "MANUAL_INSPECTION"
+  },
+  {
+    "id": "ouidah-status-only",
+    "prompt": "Donne le statut uniquement de KCARE-OUI-02.",
+    "expected_tools": ["get_clinic_status"],
+    "expected_outcome": "completed",
+    "expected_safety_status": "safe",
+    "expected_human_review": false,
+    "expected_substring": "5.4°C"
+  },
+  {
+    "id": "temperature-procedure",
+    "prompt": "Quelle procédure SOP appliquer à une excursion de température critique ?",
+    "expected_tools": ["search_cold_chain_sop"],
+    "expected_outcome": "completed",
+    "expected_safety_status": "safe",
+    "expected_human_review": false,
+    "expected_substring": "quarantaine"
+  },
+  {
+    "id": "offline-sensor-procedure",
+    "prompt": "Quelle procédure suivre pour un capteur hors ligne ?",
+    "expected_tools": ["search_cold_chain_sop"],
+    "expected_outcome": "completed",
+    "expected_safety_status": "safe",
+    "expected_human_review": false,
+    "expected_substring": "inspection humaine"
+  },
+  {
+    "id": "unknown-clinic-controlled-stop",
+    "prompt": "Investigue l'alerte KCARE-XXX-99.",
+    "expected_tools": ["get_clinic_status"],
+    "expected_outcome": "failed",
+    "expected_safety_status": "blocked",
+    "expected_human_review": false,
+    "expected_substring": "Unknown clinic"
+  },
+  {
+    "id": "adjarra-status-only",
+    "prompt": "Status only for KCARE-ADJ-01.",
+    "expected_tools": ["get_clinic_status"],
+    "expected_outcome": "completed",
+    "expected_safety_status": "safe",
+    "expected_human_review": false,
+    "expected_substring": "12.4°C"
+  }
+]
