@@ -32,7 +32,7 @@ the local changes have been published. No submission email has been sent.
   delivery-contract checks for bilingual notebooks, TODOs and speaker notes.
 - 10 of 10 deterministic evaluations pass (three operational and seven adverse cases).
 - All four notebooks execute in fresh local kernels in explicit mock mode.
-- The French-first and English participant notebooks contain the same ten guided TODOs and four checkpoints.
+- The French-first and English participant notebooks contain the same four guided TODOs and four checkpoints, with visible object contracts and runnable observations.
 - Both solution notebooks complete the five-tool incident workflow, record simulated operator approval, render the incident dashboard and eval matrix, and pass the `10 / 10` evaluation gate.
 - Both solution notebooks unlock a portable JSON evidence dossier; participant notebooks keep it locked until the mission and all evaluations pass.
 - Both decks contain 20 slides adapted from the official template, with speaker notes.

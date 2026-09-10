@@ -63,7 +63,7 @@ class GeminiLLM:
                     temperature=0,
                     max_output_tokens=512,
                     thinking_config=types.ThinkingConfig(thinking_level=types.ThinkingLevel.LOW),
-                    tools=[types.Tool(function_declarations=declarations)],
+                    tools=[types.Tool(function_declarations=declarations)] if declarations else None,
                     automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
                 ),
             )

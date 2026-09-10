@@ -52,6 +52,15 @@ def test_gemini_adapter_normalizes_function_call() -> None:
     assert fake.models.request["model"] == "gemini-3.7-flash"
 
 
+def test_chat_without_tools_has_no_function_declarations() -> None:
+    fake = FakeClient(response_with_text("I need a sensor reading."))
+    llm = GeminiLLM(api_key="unused", client=fake)
+    turn = llm.complete([{"role": "user", "content": "What do you need?"}], [])
+    assert turn.content == "I need a sensor reading."
+    assert turn.tool_calls == []
+    assert fake.models.request["config"].tools is None
+
+
 def test_gemini_adapter_preserves_function_call_signature() -> None:
     content = GeminiLLM._to_content(
         {

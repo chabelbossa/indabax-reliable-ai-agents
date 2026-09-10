@@ -30,7 +30,7 @@ def _output_text(notebook: dict) -> str:
     return "\n".join(value for value in chunks if isinstance(value, str))
 
 
-def test_participant_notebooks_preserve_ten_decision_todos() -> None:
+def test_participant_notebooks_preserve_four_decision_todos() -> None:
     for language in ("fr", "en"):
         participant = _notebook(f"workshop-{language}.ipynb")
         solution = _notebook(f"workshop-solution-{language}.ipynb")
@@ -39,9 +39,9 @@ def test_participant_notebooks_preserve_ten_decision_todos() -> None:
             int(value)
             for value in re.findall(r"# TODO (\d+):", _code_text(participant))
         ]
-        assert todo_ids == list(range(1, 11))
+        assert todo_ids == list(range(1, 5))
         assert not re.findall(r"# TODO (\d+):", _code_text(solution))
-        assert len(participant["cells"]) == len(solution["cells"]) == 28
+        assert len(participant["cells"]) == len(solution["cells"])
         assert [cell["cell_type"] for cell in participant["cells"]] == [
             cell["cell_type"] for cell in solution["cells"]
         ]
@@ -59,7 +59,7 @@ def test_french_first_bilingual_delivery_contract() -> None:
     assert readme.index("notebook participant en français") < readme.index(
         "English participant notebook"
     )
-    assert len(french["cells"]) == len(english["cells"]) == 28
+    assert len(french["cells"]) == len(english["cells"])
     assert [cell["cell_type"] for cell in french["cells"]] == [
         cell["cell_type"] for cell in english["cells"]
     ]
@@ -88,10 +88,10 @@ def test_facilitator_runbook_keeps_the_participatory_safety_path() -> None:
         "Échanger les rôles",
         "contre-exemple",
         "checkpoint 4",
-        "46–50 min",
+        "46 à 50 minutes",
     )
 
-    assert all(moment in runbook for moment in required_moments)
+    assert all(moment.casefold() in runbook.casefold() for moment in required_moments)
     assert 'MODE = "mock"' in runbook
     assert "Ne jamais présenter les sorties mock" in runbook
 

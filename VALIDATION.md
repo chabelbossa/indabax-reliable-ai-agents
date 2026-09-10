@@ -1,4 +1,23 @@
-# Validation de la livraison : 4 septembre 2026
+# Validation de la livraison
+
+## Révision pédagogique du 10 septembre 2026
+
+- Quatre décisions à compléter : appel client, retour de l'observation, condition
+  d'approbation et critères de test. Les quatre notebooks ont été régénérés et
+  exécutés en noyaux locaux frais, en mode mock.
+- Contrats du client et des données visibles avant utilisation. Ajout d'un chatbot
+  sans outils, d'un deuxième tour observable et d'une comparaison avant/après sécurité.
+- 40 tests réussis, dont un parcours appliquant les quatre corrections au notebook
+  participant FR/EN, puis obtenant la mission approuvée et les dix évaluations.
+- Adaptateur Gemini testé sans réseau pour le chatbot sans outils. Aucun nouvel appel
+  Gemini réel ni parcours Colab authentifié exécuté pour cette révision.
+- Slides FR/EN régénérées (20 par langue), quarante pages rendues et inspectées ;
+  consignes des checkpoints alignées sur les quatre TODO. Conducteur français révisé
+  en cinq pages, rendu et inspecté. Solution HTML hors ligne actualisée.
+- Les validations historiques ci-dessous ne prouvent pas le fonctionnement live
+  de cette nouvelle version. Publication et répétition chronométrée restent à faire.
+
+## Résultats historiques du 4 septembre 2026
 
 ## Résultats observés
 
@@ -58,7 +77,7 @@ la solution. Le code du lab et les notebooks n’ont pas été modifiés par cet
 1. **Publication** : les changements finaux sont locaux. Publier la révision
    approuvée, vérifier son SHA distant et ouvrir le lien Colab public à neuf.
    Le test avec archive ne prouve pas que GitHub sert déjà ces nouveaux fichiers.
-2. **Répétition humaine** : faire les dix TODO en binôme avec chronomètre. Le
+2. **Répétition humaine** : faire les quatre TODO en binôme avec chronomètre. Le
    déroulé prévoit 50 minutes, mais aucune répétition humaine chronométrée n'a
    été réalisée par l'assistant. Utiliser le parcours comprimé du runbook si besoin.
 3. **Salle** : vérifier projecteur, Wi-Fi, création des clés et quota réel du

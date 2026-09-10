@@ -21,7 +21,7 @@ LLM. Pendant 50 minutes, les participants deviennent l'équipe AI/Operations de
 6. produire une timeline et tester dix scénarios, dont sept erreurs volontaires ;
 7. déverrouiller un dossier de preuves JSON téléchargeable.
 
-L'architecture est fournie. Les participants complètent dix décisions
+L'architecture est fournie. Les participants complètent quatre décisions
 d'orchestration réparties en quatre checkpoints. Le français est le parcours
 principal ; une version anglaise équivalente est disponible.
 
@@ -54,8 +54,8 @@ externe n'est nécessaire.
 ## Démarrage dans Colab
 
 1. Ouvrir le [notebook participant français](https://colab.research.google.com/github/chabelbossa/indabax-reliable-ai-agents/blob/main/notebooks/workshop-fr.ipynb) ou le [notebook anglais](https://colab.research.google.com/github/chabelbossa/indabax-reliable-ai-agents/blob/main/notebooks/workshop-en.ipynb).
-2. Exécuter la cellule de setup. `MODE=gemini` demande la clé avec `getpass` sans l'afficher.
-3. Traiter l'alerte KoraCare et compléter les dix TODOs.
+2. Enregistrer une copie dans Drive. Exécuter la cellule de setup. `MODE=gemini` demande la clé avec `getpass` sans l'afficher ; sans clé, choisir `MODE = "mock"`.
+3. Lire le contrat du client, lancer le chatbot sans outils, puis compléter les quatre TODOs. Chaque définition est suivie d'une cellule qui l'utilise : exécuter les deux après une modification.
 4. Utiliser la [solution française](https://colab.research.google.com/github/chabelbossa/indabax-reliable-ai-agents/blob/main/notebooks/workshop-solution-fr.ipynb) ou la [solution anglaise](https://colab.research.google.com/github/chabelbossa/indabax-reliable-ai-agents/blob/main/notebooks/workshop-solution-en.ipynb) dès qu'un checkpoint bloque le groupe.
 
 ## Démarrage local
@@ -92,13 +92,21 @@ Dans **Colab**, remplacer plutôt la ligne `MODE = ...` du setup par
 Le dossier déjà cloné est réutilisé. Le mock évite l'API ; le premier accès à Colab
 et l'installation des dépendances demandent toujours Internet.
 
-Les limites Gemini sont par projet, pas par clé. Préparer une clé par binôme et
-limiter les appels réels à la mission ; les dix évaluations sont déterministes.
+Les limites Gemini sont par projet, pas par clé. Préparer une clé par binôme.
+Le parcours révisé utilise Gemini pour le chatbot sans outils, le premier appel,
+le tour suivant après observation et la mission. Éviter les relances inutiles.
+Les dix évaluations et les contre-exemples restent déterministes sans API.
 Le modèle configuré est `gemini-3.7-flash`. Le test live vérifie son accès effectif.
 
 Le mode sélectionné est toujours affiché. Le mock exécute exactement le même
 workflow métier et reste la référence déterministe des evals ; il n'est jamais
 présenté silencieusement comme une réponse Gemini.
+
+L'ouverture « chatbot sans outils » affiche un texte fixe explicitement étiqueté
+en mode mock ; ce texte n'est pas une génération IA. Les quatre décisions à écrire
+sont : demander un tour au client, ajouter les deux messages d'observation,
+bloquer une conclusion sans accord requis et exiger tous les critères d'un test.
+La trace, les conversions de données, la boucle et l'anti-répétition sont fournis.
 
 Avant le workshop, vérifier le chemin live complet avec une clé fraîche déjà
 présente dans l'environnement :

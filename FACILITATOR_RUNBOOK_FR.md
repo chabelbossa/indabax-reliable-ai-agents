@@ -1,174 +1,165 @@
-# Guide animateur : mission KoraCare
+# Conducteur oral — parcours KoraCare révisé
+Version du 10 septembre 2026 · 50 minutes · quatre TODO · slides et notebook FR/EN
 
-50 minutes, niveau intermédiaire, français prioritaire. Le deck anglais suit les mêmes
-vingt slides et les notebooks ont les mêmes dix TODO. Les notes PowerPoint donnent les
-questions et les transitions de chaque slide.
+## La carte à garder sous les yeux
 
-## Comment utiliser le deck pendant l'atelier
+Le fil : parler sans outils → demander un outil → lire et renvoyer son résultat →
+enchaîner les outils → bloquer une conclusion non autorisée → tester.
 
-Ne pas présenter les vingt slides puis ouvrir le notebook. Le deck et le notebook
-avancent ensemble :
+| Temps | Écran | Ce que la salle doit voir |
+| --- | --- | --- |
+| 0–10 | Slides 1–10 | L'alerte, l'appel, son résultat et la boucle. |
+| 10–14 | Notebook : setup et contrat | Un client prêt par binôme ; attribut mode et méthode complete distingués. |
+| 14–22 | Chatbot, slide 11, TODO 1 | Une réponse sans accès aux faits, puis une proposition d'outil. |
+| 22–31 | Slide 12, TODO 2 | La mesure de 12,4 °C, l'historique enrichi, puis la recherche de procédure. |
+| 31–41 | Slides 13–14, TODO 3 | Même faute avant/après, puis mission complète et contre-exemple choisi. |
+| 41–46 | Slides 15–16, TODO 4 | Mini-test puis dix scénarios ; expliquer un refus qui vaut PASS. |
+| 46–50 | Dossier, slides 18–20 | Une décision reliée à une preuve ; une règle transférable à leur métier. |
 
-1. slides 1–10 : ouverture, concepts et briefing de la mission ;
-2. slide 11, puis notebook : TODO 1–2 ;
-3. slide 12, puis notebook : TODO 3–6 ;
-4. slide 13, puis notebook : TODO 7–9 et mission Gemini ;
-5. slide 14 pendant le checkpoint 3 : réponse fautive et vote de la salle ;
-   slide 15 au début des évaluations : résultat attendu et résultat observé ;
-6. slide 16, puis notebook : TODO 10, évaluations et dossier ;
-7. slide 17 : vérifier qu’un test détecte une protection retirée ;
-   slides 18–20 : dossier obtenu, ressources et question de transfert.
+La slide 17 est facultative. À 22 minutes, donne la correction du TODO 1 si nécessaire.
+À 31 minutes, donne celle du TODO 2. À 46 minutes, protège la conclusion.
 
-Chaque page « DANS LE NOTEBOOK » annonce le checkpoint, puis peut rester affichée
-pendant le travail. Revenir au notebook pour coder et exécuter ; revenir au deck pour
-les transitions, les votes et la synthèse.
+Les slides 1–10 donnent le contexte. Ensuite : annoncer le checkpoint sur une slide,
+passer au notebook, prédire, exécuter, lire le résultat, puis faire la transition.
+Tu n'as pas à commenter chaque ligne des fonctions fournies.
 
-## Avant l'entrée des participants
+> « Une définition prépare une fonction. La cellule suivante l'appelle et nous montre son effet. Après une correction, nous exécutons les deux. »
 
-- Ouvrir le deck français, le notebook participant FR et la solution FR.
-- Faire ouvrir le notebook et préparer la clé avant le début si possible. Former des binômes
-  avec un rôle Modèle et un rôle Orchestrateur ; une clé par binôme suffit.
-- Préparer aussi une solution exécutée en mock. Ce secours ne dépend pas de Gemini ;
-  le premier lancement Colab et l'installation des dépendances nécessitent Internet.
-- Exécuter `python scripts/smoke_gemini.py` avec la clé dans l'environnement : les six
-  contrôles doivent passer. Ce script exécute les définitions du notebook solution.
-- Repérer la slide 6 (appel et résultat), la slide 7 (boucle) et la slide 14
-  (conclusion sans approbation). Elles expliquent le mécanisme avec le même incident.
-- Garder le QR du dépôt visible avant le démarrage. Les participants n'ont rien à installer
-  sur leur ordinateur s'ils utilisent Colab.
+<!-- page -->
 
-## 0–4 min : comparer les usages (slides 1–4)
+## Avant le début et ouverture — 0 à 14 minutes
 
-« Qui a utilisé ChatGPT en 2022 ? Qui l'utilise en 2026 ? Quelles tâches lui confiez-vous
-aujourd'hui que vous ne lui confiiez pas alors ? »
+Ouvre le deck, le notebook participant et la solution dans trois onglets. Former des binômes.
+Envoie le lien participant français :
+https://colab.research.google.com/github/chabelbossa/indabax-reliable-ai-agents/blob/main/notebooks/workshop-fr.ipynb
 
-Faire un vote à main levée pour chaque année, puis prendre deux réponses de vingt secondes.
-On compare les usages ; on ne demande pas qui a créé ChatGPT. Ne pas supposer que tout le
-monde utilisait déjà le produit en 2022. La slide 3 pose la question des informations et
-outils nécessaires à ces nouveaux usages. La slide 4 introduit ensuite l’alerte KoraCare,
-le rôle de l’équipe et le dossier attendu. Expliquer que données et opérateur sont simulés.
+Attention : les fichiers révisés sont locaux tant que la révision n'est pas publiée.
+Le lien public ne récupère pas automatiquement tes modifications locales.
 
-## 4–10 min : du modèle à l'agent (slides 5–10)
+> « Ouvrez le notebook dans Colab, connectez-vous et enregistrez une copie dans Drive. Nous allons avancer cellule par cellule. Vous n'avez pas besoin d'installer Python sur Windows. »
 
-La slide 5 distingue le modèle de l’application qui exécute les outils. L’agent est
-l’application dans laquelle le modèle choisit certaines étapes selon les observations.
-Comparer brièvement avec un workflow dont les étapes sont fixées par le code.
+Slides 1–4 : présentation courte et vote à main levée sur leurs usages d'IA. Deux réponses suffisent.
+Présente la clinique fictive : plage du lab 2–8 °C, mesure actuelle 12,4 °C, 52 minutes hors plage.
+La mission est de vérifier et préparer un dossier, avec une décision d'opérateur simulée.
 
-Sur la slide 6, faire identifier le nom de la fonction, l’argument et le résultat obtenu.
-L’appel affiché est une représentation normalisée du `ToolCall`, pas le format réseau
-brut de Gemini. Suivre les flèches de la slide 7, puis lire les deux tours de la slide 8 :
-mesure reçue, retour dans l’historique, recherche de la procédure. Demander pourquoi
-le modèle a besoin de recevoir le résultat pour décider de la suite.
+> « Une alerte nous donne un signal. Quel fait devons-nous aller vérifier avant de conclure ? Défendez votre choix auprès de votre binôme. »
 
-La slide 9 relie chaque outil à une question de la mission. Les fonctions sont fournies.
-La slide 10 présente les trois erreurs qui seront provoquées dans le notebook.
+Slides 5–10 : le modèle propose, Python contrôle et exécute, le résultat revient dans l'historique.
+Insiste sur l'appel à gauche et le résultat à droite. Présente les cinq outils sans lire leur code.
 
-## 10–14 min : ouvrir le notebook (slide 10, puis slide 11)
+À 10 minutes, passe au notebook. Le setup crée client avec make_client(MODE).
+Si une clé testée est disponible, garder Gemini. Sinon mettre MODE = "mock" et annoncer le simulateur.
+Le setup clone le dépôt et installe les dépendances dans Colab : il lui faut Internet.
 
-« Il est 09:42. La clinique KCARE-ADJ-01 signale 12,4°C depuis 52 minutes.
-Votre équipe doit préparer un dossier et une décision justifiée. »
+> « client est l'objet qui nous donne accès au modèle. complete est sa méthode pour demander un tour. mode est une étiquette qui indique Gemini ou mock. selected_client sera le nom du paramètre qui reçoit cet objet dans nos fonctions. »
 
-Faire choisir la première action : consulter la mesure contrôlée ou demander directement
-au modèle si le stock est sûr ? « Défendez votre choix auprès de votre binôme. »
+Lance l'inspection : classe, mode, méthode disponible et schéma du premier outil.
+Les commentaires et tableaux du notebook donnent les entrées et sorties ; la salle n'a pas à fouiller src.
 
-La mission est déjà présentée. Question de vérification : « À quel moment sait-on que
-la mesure a été lue ? » Réponse : quand l’outil a retourné son résultat, pas au moment de
-la proposition. Retrouver les cinq outils dans le notebook comme une référence.
-Toutes les données, les procédures et l'opérateur sont simulés. Les règles ne constituent
-pas un protocole médical ; aucune action physique n'est exécutée.
+<!-- page -->
 
-Faire exécuter le setup. Cette plage inclut le dépannage. En cas de blocage, choisir le
-mock immédiatement et utiliser le poste du binôme. Un changement de clé n'est pas le
-plan de secours : les clés d'un même projet partagent les quotas.
+## Voir le modèle agir — 14 à 31 minutes
 
-## 14–22 min : checkpoint 1, proposer (slide 11)
+### Chatbot et checkpoint 1 — 14 à 22 minutes
 
-TODO 1–2 : compléter l'appel du client et sélectionner le premier outil.
-Avant l'exécution, chacun prédit le nom, les arguments et l'information recherchée.
-La prévisualisation est explicitement en mock. La mission complète sera en Gemini.
+Lance « Première interaction ». En Gemini, c'est un véritable appel sans outils.
+En mock, c'est un texte de secours fixe, annoncé comme tel ; il ne répond pas librement aux changements de question.
 
-Acceptation : `get_clinic_status` avec `clinic_id=KCARE-ADJ-01`, puis explication de
-la différence entre l'appel et le résultat. À 22 minutes, fournir la solution si nécessaire.
+> « Ce texte peut expliquer une démarche. Où est la preuve que le capteur a été consulté ? Il n'y en a pas. Donnons maintenant au modèle les moyens de demander une mesure. »
 
-## 22–31 min : checkpoint 2, exécuter et observer (slide 12)
+Affiche la slide 11 puis reviens au TODO 1. Il manque seulement l'appel à
+selected_client.complete(messages, TOOL_SCHEMAS). La sélection du premier outil est fournie.
+Faire prédire get_clinic_status avec clinic_id = KCARE-ADJ-01.
+Exécuter la définition puis sa cellule d'essai. Lire content et tool_calls.
 
-TODO 3–6 : exécuter avec le contrôle de provenance, enregistrer le résultat réel dans
-la structure de trace fournie, ajouter la proposition assistant puis l'observation tool.
+Si Gemini propose autre chose, lis la sortie ; ne prétends pas que le résultat est imposé.
+En cas d'erreur API, passe explicitement au mock et relance setup, définition et essai.
+À 22 minutes, fournis la ligne de solution et demande ce qu'elle reçoit.
 
-Masquer la réponse finale. Faire raconter le premier appel uniquement à partir de la trace.
-Acceptation : l'observation contient la valeur retournée par l'outil et l'identité de l'appel.
-Si l'on dépasse de deux minutes, donner le code de ce checkpoint et poursuivre.
+### Checkpoint 2 — 22 à 31 minutes
 
-## 31–41 min : checkpoint 3 et contre-exemple (slides 13–14)
+Slide 12 puis notebook. Lance la fonction d'exécution fournie et la cellule qui l'appelle.
+Montre ok, data, error, puis la trace. Demande de retrouver 12,4 °C.
 
-Échanger les rôles. Afficher la slide 14 et faire voter avant de commenter la trace.
-Avant TODO 7–8, exécuter le client adverse qui conclut après le calcul du risque ;
-sa réponse n’est pas autorisée. Aucun dossier ni accord n’existe. Demander quelle preuve manque.
-Compléter TODO 7–9 : obligation de revue, approbation liée au bon incident et à la bonne
-action, arrêt d'un appel répété. Réexécuter les cellules de définition après modification.
+> « Nous avons une preuve à l'écran. Mais au prochain appel, le modèle ne verra que les messages que nous lui transmettrons. Il faut donc lui renvoyer ce résultat. »
 
-Lancer la mission complète Gemini une fois les protections ajoutées. Puis relancer le client
-adverse, qui doit donner `review_required`. Le binôme choisit une autre panne dans la cellule
-« Votre contre-exemple » : mesure altérée, approbation rejetée ou répétition.
+Les messages sont déjà construits. TODO 2 ajoute assistant_message puis tool_message
+à messages avec extend. Le premier conserve la proposition, le second contient l'observation.
+Les conversions Pydantic sont expliquées et fournies ; elles ne sont pas à deviner.
 
-Acceptation : l'agent s'arrête pour une raison que le binôme retrouve dans les preuves.
-La timeline se révèle après le run ; ne pas demander de prédire chaque étape pendant un
-affichage qui arrive d'un seul bloc. Faire prédire avant l'exécution, puis comparer.
+Relancer append_observation puis la cellule suivante. Lire les rôles
+system, user, assistant, tool. Observer le prochain appel : la recherche de procédure.
+Le test repart d'une copie de l'historique pour éviter les doublons lors des relances.
 
-Si une protection est corrigée après la mission, relancer sa cellule `mission_run = ...`
-avant les évaluations : un objet déjà calculé ne se met pas à jour tout seul.
+> « Nous venons de faire deux tours à la main. La boucle fournie répète exactement ce mécanisme. Maintenant, quand doit-elle s'arrêter ? »
 
-## 41–46 min : checkpoint 4, évaluer (slides 15–17)
+<!-- page -->
 
-La slide 15 compare quatre résultats attendus et observés de la solution. La colonne
-de statut ne résume pas toutes les vérifications : les tests contrôlent aussi la séquence,
-la revue, la trace et la réponse. TODO 10 : exiger toutes les conditions avec `all(row["checks"].values())`.
-Lancer les dix scénarios sans API : trois chemins métier et sept erreurs volontaires.
-Lire au moins le cas d'approbation absente et celui d'appel répété.
+## La décision et sa preuve — 31 à 50 minutes
 
-Un test PASS peut signifier que l'agent a correctement refusé de continuer. Retirer le
-garde anti-répétition fait échouer son scénario ; retirer le contrôle humain fait échouer
-les scénarios concernés. La slide 17 montre cette comparaison. Si le temps permet de la
-reproduire, restaurer le contrôle et relancer les définitions puis les évaluations.
-Le score couvre uniquement les cas testés. Les cinq minutes du checkpoint incluent
-la lecture des slides et des résultats ; elles ne s’ajoutent pas aux cinq minutes de l’agenda.
+### Checkpoint 3 — 31 à 41 minutes
 
-## 46–50 min : dossier et transfert (slides 18–20)
+Échanger les rôles. Slides 13–14 : vote avant de lire la réponse.
 
-La slide 18 représente un extrait abrégé du dossier produit en mode mock. Ce n’est pas
-une capture d’un appel Gemini. Montrer ensuite le dossier de la session et son champ `mode`.
-Télécharger le dossier JSON : faits, appels, décision simulée, évaluations et panne choisie.
-Chaque binôme explique la protection illustrée par son expérience. Une capture est facultative.
+> « Le modèle a lu les faits et le risque, mais il conclut sans approbation. Quelle preuve chercheriez-vous pour accepter sa conclusion ? »
 
-Prendre deux réponses à : « Quelle règle testeriez-vous dans votre propre métier ? »
-Réponse attendue : une règle précise et un cas où elle doit bloquer, pas seulement un nom d'outil.
-Ne pas présenter le dossier comme la preuve qu'un réfrigérateur a été réparé.
+Dans le participant, garder d'abord if False au TODO 3. Exécuter finish_with_safety,
+la boucle fournie puis le contre-exemple juste dessous. Si les deux premiers TODO sont
+corrects, la mauvaise conclusion est classée completed / safe.
 
-## Secours explicite, en moins d'une minute
+Faire remplacer False par human_required and not human_approved.
+Les booléens proviennent de inspect_evidence, dont le contrat est affiché.
+Relancer la définition et le même contre-exemple : stopped / review_required.
+La cellule de comparaison peut aussi montrer les deux résultats côte à côte et restaure la fonction.
 
-1. Annoncer : « L'API est indisponible ; nous passons au simulateur déterministe. »
-2. Dans le setup du notebook, remplacer la ligne `MODE = ...` par `MODE = "mock"`.
-3. Relancer le setup, la mission, l'expérience choisie et les évaluations. Le clone est réutilisé.
-4. Ne jamais présenter les sorties mock comme des décisions Gemini en direct.
+> « Nous n'avons pas rendu le modèle incapable de se tromper. Nous avons ajouté une règle qui empêche cette erreur d'être acceptée. »
 
-En cas de panne totale de réseau, utiliser le notebook solution local déjà exécuté ou
-partager le poste d'un binôme. Le mock supprime la dépendance API, pas l'accès initial à Colab.
+Lancer ensuite la mission avec le client choisi : cinq outils et human_approved attendus.
+Tout résultat différent doit être lu dans la trace. La revue est simulée dans les deux modes.
+Exécuter « Votre contre-exemple » au moins une fois : cette cellule crée experiment pour le dossier.
 
-## Parcours compressé, 35 minutes
+### Checkpoint 4 — 41 à 46 minutes
 
-- 0–4 : usages et boucle.
-- 4–8 : mission, choix de première action et ouverture.
-- 8–14 : TODO 1–2 ; donner la solution TODO 3–6 et lire une trace.
-- 14–26 : TODO 7–9, mission et contre-exemple.
-- 26–31 : TODO 10 et lecture de trois scénarios représentatifs.
-- 31–35 : dossier et question de transfert.
+Slides 15–16 puis TODO 4. row contient un dictionnaire checks de booléens.
+Compléter all(row["checks"].values()). Le mini-test doit afficher True puis False.
+Lancer les dix scénarios déterministes. Lire au moins missing_approval et repeat.
 
-## Répétition humaine à effectuer avant l'atelier
+> « Un test passe lorsque le comportement attendu est respecté. Si l'accord manque, le bon comportement est de refuser de conclure. »
 
-- Une personne suit les TODO sans connaître les solutions ; l'animateur suit ce guide.
-- Le parcours tient en 50 minutes ; sinon fournir davantage de code répétitif.
-- Le passage Gemini → mock prend moins d'une minute dans le notebook.
-- La personne explique qui propose, qui exécute et pourquoi un résultat est refusé.
-- Le JSON est téléchargé et la panne choisie peut être expliquée.
+La slide 17 et la manipulation anti-répétition sont facultatives.
+En cas de dossier verrouillé : relancer définitions corrigées, mission, contre-exemple, évaluations.
 
-Les tests automatisés et l'exécution Gemini ne remplacent pas cette répétition.
+### Conclusion — 46 à 50 minutes
+
+Slide 18, dossier réel de la session, puis slides 19–20. Télécharger le JSON.
+Faire relier une décision à ses faits et à l'approbation simulée.
+
+> « Qui propose ? Qui exécute ? Quelle preuve autorise la suite ? Quel test vérifie le refus ? Voilà les quatre questions que vous pouvez reprendre dans vos projets. »
+
+Prendre deux réponses à « Quelle règle testeriez-vous dans votre métier ? ».
+Une exécution en simulation prouve le comportement des cas testés, pas une intervention réelle.
+
+<!-- page -->
+
+## Les éventualités : une décision simple à chaque fois
+
+- Windows sans Python : Colab dans le navigateur. Aucun terminal local à préparer.
+- Pas d'ordinateur ou compte Google indisponible : rejoindre un binôme prêt.
+- Pas de clé ou erreur API : MODE = "mock", relancer le setup et les essais concernés.
+  Ne jamais présenter les sorties mock comme des réponses Gemini.
+- Réseau absent : projeter la solution HTML locale et ses sorties enregistrées.
+  Le mock ne permet pas de lancer Colab sans Internet.
+- Syntaxe bloquante : fournir la correction du checkpoint, puis faire expliquer la ligne.
+- Une cellule semble ne rien faire : si elle définit une fonction, lancer l'essai juste après.
+- Une correction ne change rien : relancer la définition, puis les cellules qui l'utilisent.
+- Un résultat Gemini diffère : lire l'appel et les arguments ; utiliser le simulateur annoncé si le temps manque.
+- Plusieurs évaluations rouges : vérifier les quatre TODO, sans chercher à modifier tous les fichiers src.
+- Moins de temps : garder le premier appel, le retour de résultat, le vote avant/après et un test de refus.
+  Le chatbot peut être montré sur ton seul poste ; l'expérience adverse supplémentaire peut être guidée.
+
+En Gemini, le chatbot, les deux tours exploratoires et la mission utilisent l'API.
+Les erreurs volontaires et les évaluations sont simulées pour rester reproductibles.
+Chaque cellule ne doit donc pas appeler l'IA : chaque étape doit montrer un effet compréhensible.
+
+Pour ta répétition : ouvre le participant, fais les quatre corrections, exécute les essais
+et raconte chaque sortie en une phrase. Les tests locaux ne remplacent pas cette répétition.
