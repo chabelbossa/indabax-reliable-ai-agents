@@ -6,6 +6,20 @@ Deep Learning IndabaX Benin 2026. Educational lab by BOSSA Chabel
 [![Ouvrir le notebook participant en français](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chabelbossa/indabax-reliable-ai-agents/blob/main/notebooks/workshop-fr.ipynb)
 [![Open the English participant notebook](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/chabelbossa/indabax-reliable-ai-agents/blob/main/notebooks/workshop-en.ipynb)
 
+## Présentation V2 : participer sans coder
+
+Pour une session guidée de 50 minutes, utiliser la **V2 française** :
+
+- [Présentation PDF V2](slides/indabax-reliable-ai-agents-fr-v2.pdf)
+- [PowerPoint V2 modifiable, avec notes orales](slides/indabax-reliable-ai-agents-fr-v2.pptx)
+- [Guide d’animation : timing, questions et réponses](slides/GUIDE_ANIMATION_V2_FR.md)
+
+Les participants lisent le pseudo-code, prédisent les appels, jouent la boucle
+et identifient les erreurs. Aucune saisie de code ni installation Python n’est
+requise pour ce parcours. Le notebook solution sert de démonstration facultative ;
+le notebook participant permet de pratiquer ensuite. La V1 et les notebooks
+FR/EN restent disponibles pour le parcours de programmation décrit ci-dessous.
+
 ## La mission
 
 À 09:42, le réfrigérateur d'une clinique fictive au Bénin signale **12,4°C depuis

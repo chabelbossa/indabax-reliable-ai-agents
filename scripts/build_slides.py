@@ -183,8 +183,9 @@ def render(slide, item):
         text(slide,item["footnote"],1.25,9.8,17.5,.62,17,MUTED)
 
 
-def build_deck(language):
-    plan = FR if language == "fr" else EN
+def build_deck(language, plan=None, suffix=""):
+    if plan is None:
+        plan = FR if language == "fr" else EN
     presentation = Presentation(SOURCE)
     # Keep the cover, theme and footer, including the original crest image.
     footer_source = presentation.slides[3]
@@ -225,7 +226,7 @@ def build_deck(language):
         text(slide,f"{number:02d} / {len(plan):02d}",17.35,10.55,1.4,.4,17,MUTED,align=PP_ALIGN.RIGHT)
         render(slide,item)
         slide.notes_slide.notes_text_frame.text=item["notes"]
-    output=ROOT/"slides"/f"indabax-reliable-ai-agents-{language}.pptx"
+    output=ROOT/"slides"/f"indabax-reliable-ai-agents-{language}{suffix}.pptx"
     presentation.save(output)
     return output
 
