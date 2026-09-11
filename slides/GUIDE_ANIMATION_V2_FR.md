@@ -1,225 +1,183 @@
-# Guide d’animation — V2 française
+# Guide d’animation — présentation française V2
 
-Parcours de 50 minutes sans saisie de code obligatoire. La pratique repose sur les prédictions, les votes et le jeu de rôles. Les pseudo-codes simplifient le programme et ne sont pas exécutables. Le seul extrait Python réel est explicitement signalé.
+La présentation est autonome : chaque notion est expliquée avant le code qui l’applique. Les blocs marqués « Python réel » correspondent à l’architecture exécutable de `examples/guided_demo.py` ou aux contrôles utilisés par le projet.
 
-Avant la session : ouvrir le PDF et, si souhaité, préparer le notebook solution en mock. Garder le mode affiché. Une démo facultative remplace les deux minutes de la slide 15 ; elle ne s’ajoute pas au programme. Ne pas attendre une installation ou une clé pour commencer.
+Le public n’a pas besoin de coder pendant la séance. Il doit cependant pouvoir distinguer modèle, outil, agent, historique et trace ; lire la boucle ; expliquer les contrôles ; et proposer un scénario de test.
 
-Si le groupe est à l’aise : lui faire commenter les lignes et proposer un contre-exemple. Si le groupe hésite : lire chaque ligne en français puis demander qui agit. Si le temps manque : raccourcir les interventions aux slides 12 et 16, garder les erreurs et les évaluations.
+## Slide 01 — Couverture
 
-Ce que l’on envoie : PDF V2 pour tous ; lien du notebook solution pour rejouer ; notebook participant pour pratiquer ensuite. Aucun code à copier depuis les slides. Sur Windows sans Python, le parcours slides suffit ; Colab est facultatif. Hors connexion, utiliser le PDF téléchargé.
+00:00–00:01
+Objectif : Annoncer le résultat d’apprentissage.
+À dire : Nous allons partir d’un modèle qui répond, lui donner des outils, construire sa boucle d’exécution puis vérifier ses décisions.
 
-## Slide 01 — Construire des agents IA fiables
+## Slide 02 — Un concept, son code, puis son comportement observable.
 
-00–01 min
-À dire : Aujourd’hui, on va raisonner ensemble comme les concepteurs d’un agent. Vous n’avez pas besoin de taper du code pour participer.
-Question : Que faudrait-il vérifier avant de faire confiance à une réponse ?
-Réponse attendue : Les données et les actions réellement exécutées.
-Action : Rester sur la présentation.
-
-## Slide 02 — Vous prenez les décisions. Nous suivons leurs effets.
-
-01–02 min
-À dire : On lit quelques lignes, vous prédisez la suite, puis on regarde le résultat. Le notebook sert à montrer le même mécanisme en Python.
-Question : Faut-il installer Python pour suivre ?
-Réponse attendue : Non. Slides et votes suffisent ; Colab est facultatif.
-Action : Rester sur la présentation.
+00:01–00:02
+Objectif : Donner la carte de la session.
+À dire : Chaque bloc commence par l’idée. Le code vient ensuite pour montrer comment cette idée devient un système exécutable.
 
 ## Slide 03 — 09:42 : une clinique signale une hausse de température.
 
-02–04 min
-À dire : Nous jouons l’équipe de garde de KoraCare. Une alerte arrive. Nous devons enquêter avant de conclure.
-Question : 12,4 °C est-il un seuil ou une mesure ?
-Réponse attendue : Une mesure du capteur dans notre jeu de données fictif.
-Action : Rester sur la présentation.
+00:02–00:04
+Objectif : Installer un problème concret.
+À dire : KoraCare est fictif. Nous devons examiner cette alerte sans confondre une réponse plausible avec une exécution prouvée.
+Question : Quelle information faut-il vérifier en premier ?
+Réponse attendue : La mesure actuelle de la clinique.
 
-## Slide 04 — 12,4 °C : une mesure, pas une moyenne.
+## Slide 04 — 12,4 °C est une mesure, pas une moyenne.
 
-04–06 min
-À dire : La valeur 12,4 est comparée à une plage, pas à une moyenne. On doit aussi regarder la durée.
-Question : Pourquoi la température seule ne suffit-elle pas ?
-Réponse attendue : La règle dépend aussi de la durée et de la fiabilité du capteur.
-Action : Rester sur la présentation.
+00:04–00:06
+Objectif : Rendre les données et la règle explicites.
+À dire : La valeur 12,4 n’est ni un seuil ni une moyenne : c’est la mesure lue dans notre jeu de données.
+Question : Pourquoi 12,4 °C ne suffit-il pas à lui seul ?
+Réponse attendue : La durée, l’état du capteur et la procédure comptent aussi.
 
-## Slide 05 — Trois rôles à garder en tête.
+## Slide 05 — Un modèle produit une proposition. Une application agit.
 
-06–07 min
-À dire : Gardez ces trois rôles. Quand quelque chose se passe, nous allons demander qui en est responsable.
-Question : Qui lit réellement la mesure ?
-Réponse attendue : La fonction exécutée par Python, sur nos données locales.
-Action : Rester sur la présentation.
+00:06–00:09
+Objectif : Poser le vocabulaire avant le code.
+À dire : Le modèle propose. Notre code décide ce qui est autorisé, exécute les fonctions et conserve les preuves.
+Question : Qui exécute réellement un outil ?
+Réponse attendue : Le programme Python, après contrôle de la proposition.
 
-## Slide 06 — Commencer par une conversation.
+## Slide 06 — Un tour transforme une demande en nouvelle information.
 
-07–09 min
-À dire : On commence comme un chatbot. Nous lui avons donné une question, mais aucun moyen de consulter nos données.
-Question : L’IA peut-elle vérifier le capteur ici ?
-Réponse attendue : Non. Elle peut répondre, mais aucun outil ne lui donne accès au capteur.
-Action : Rester sur la présentation.
+00:09–00:11
+Objectif : Présenter le cycle complet avant son implémentation.
+À dire : Suivons toujours ces quatre moments : proposition, contrôle, exécution, observation.
 
-## Slide 07 — Définir une fonction ne la lance pas.
+## Slide 07 — Un outil possède une fonction et un contrat.
 
-09–11 min
-À dire : Une cellule de définition prépare le travail. Une autre cellule doit appeler la fonction pour que quelque chose se passe.
-Question : À quelle ligne le travail se fait-il ?
-Réponse attendue : À mesure ← lire_clinique(...). La définition seule ne lit rien.
-Action : Rester sur la présentation.
+00:11–00:13
+Objectif : Expliquer le contrat d’un outil.
+À dire : Le modèle voit le schéma. Il ne voit pas ni n’exécute directement le corps de la fonction.
+Question : À quoi sert le schéma ?
+Réponse attendue : À expliquer au modèle comment demander l’outil de manière structurée.
 
-## Slide 08 — Expliquer au modèle l’outil disponible.
+## Slide 08 — Valider les arguments avant de lire les données.
 
-11–13 min
-À dire : Nous devons présenter les outils au modèle, comme je dois vous présenter les fonctions avant de vous demander de les utiliser.
-Question : Le modèle devine-t-il nos fonctions cachées ?
-Réponse attendue : Non. L’application lui transmet explicitement leurs descriptions.
-Action : Rester sur la présentation.
+00:13–00:16
+Objectif : Montrer un outil réel et lisible.
+À dire : La description guide le modèle ; ce code contrôle l’entrée et produit la donnée qui sera utilisée par la suite.
 
-## Slide 09 — Avec l’outil, la réponse peut devenir une demande.
+## Slide 09 — Le client masque le fournisseur, pas le comportement attendu.
 
-13–15 min
-À dire : La nouveauté, c’est cette demande structurée. Elle sera interprétée et contrôlée par notre programme.
-Question : Avons-nous déjà lu la température ?
-Réponse attendue : Non : nous avons seulement une demande structurée.
-Action : Rester sur la présentation.
+00:16–00:18
+Objectif : Expliquer l’abstraction du client avant de l’utiliser.
+À dire : Le reste de l’agent dépend d’un contrat simple. C’est ce qui permet de changer de fournisseur sans réécrire la boucle.
+Question : Comment savons-nous que client possède complete ?
+Réponse attendue : Le protocole LLMClient définit ce contrat.
 
-## Slide 10 — Python retrouve la fonction et vérifie l’appel.
+## Slide 10 — Définir le contrat, puis injecter le client choisi.
 
-15–17 min
-À dire : On retrouve la fonction autorisée. On ne transforme pas librement le texte du modèle en code exécutable.
-Question : Un appel bien écrit est-il toujours cohérent ?
-Réponse attendue : Non. Il faut aussi vérifier la clinique visée et la provenance des valeurs.
-Action : Rester sur la présentation.
+00:18–00:21
+Objectif : Rendre complete, mode et client compréhensibles.
+À dire : Rien n’est caché : le protocole annonce le contrat et la fonction reçoit l’implémentation choisie.
 
-## Slide 11 — Renvoyer le résultat au modèle.
+## Slide 11 — Le modèle propose l’appel ; il ne lit pas encore la clinique.
 
-17–19 min
-À dire : Voici le lien essentiel. Exécuter un outil ne suffit pas : le résultat doit revenir dans la conversation.
-Question : Que perd-on si le résultat n’est pas ajouté ?
-Réponse attendue : Le modèle n’a pas l’observation ; il ne peut pas fonder la suite sur cette mesure.
-Action : Rester sur la présentation.
+00:21–00:23
+Objectif : Distinguer proposition et exécution.
+À dire : Le bloc de gauche est une demande du modèle. Le bloc de droite est le résultat obtenu par Python.
+Question : À quel moment connaissons-nous réellement 12,4 °C ?
+Réponse attendue : Après l’exécution réussie de get_clinic_status.
 
-## Slide 12 — Prédisez le prochain outil.
+## Slide 12 — L’agent avance grâce à deux mémoires différentes.
 
-19–21 min
-À dire : Laissez trente secondes au binôme, puis prenez deux justifications.
-Question : A, B ou C ? Pourquoi ?
-Réponse attendue : B. Il manque la procédure. La mesure seule ne permet pas de conclure.
-Action : Rester sur la présentation.
+00:23–00:25
+Objectif : Expliquer l’état avant le code d’exécution.
+À dire : L’historique sert à poursuivre le raisonnement ; la trace sert à vérifier ce qui s’est réellement passé.
+Question : Pourquoi conserver les deux ?
+Réponse attendue : Ils servent à des responsabilités différentes : contexte du modèle et preuve d’exécution.
 
-## Slide 13 — Construire la boucle : le modèle choisit la suite.
+## Slide 13 — Regrouper ce qui permet de continuer et d’auditer.
 
-21–23 min
-À dire : On ne code pas cinq étapes aveugles. Le modèle reçoit les observations, puis propose la suite dans les limites fixées.
-Question : Qu’est-ce qui décide de la prochaine étape ?
-Réponse attendue : Le modèle propose à partir de l’historique ; le programme autorise ou bloque.
-Action : Rester sur la présentation.
+00:25–00:27
+Objectif : Montrer une abstraction d’état simple.
+À dire : L’objet AgentState évite de faire circuler quatre variables séparées à chaque fonction.
 
-## Slide 14 — Dans le notebook, qui est client ?
+## Slide 14 — Contrôler, tracer, puis renvoyer l’observation.
 
-23–25 min
-À dire : Personne n’est censé deviner cela. Notre code définit ce contrat. Le pseudo-code interroger_IA correspond à complete dans le notebook.
-Question : mode et complete sont-ils tous les deux des méthodes ?
-Réponse attendue : Non : mode est un attribut, complete est une méthode. Les parenthèses indiquent l’appel.
-Action : Rester sur la présentation.
+00:27–00:30
+Objectif : Montrer le cœur de l’aller-retour.
+À dire : make_trace condense ici la construction d’une TraceEntry ; la version exécutable conserve tous ses champs.
 
-## Slide 15 — Faire le lien avec les vraies lignes Python.
+## Slide 15 — Chaque observation détermine l’information encore nécessaire.
 
-25–27 min
-À dire : Voici le seul petit pont de syntaxe dont nous avons besoin. Lisez le sens. Vous n’avez pas à le recopier.
-Question : D’où vient selected_client dans cette fonction ?
-Réponse attendue : De l’argument transmis quand on appelle propose_tool ; ce nom est local à la fonction.
-Action : Démo facultative de 2 minutes à la place de l’explication : notebook solution, contrat client puis premier appel. Si le setup ne fonctionne pas, rester sur la slide.
+00:30–00:33
+Objectif : Faire parcourir la chaîne de décisions.
+À dire : À chaque ligne, demandez quelle information manquait avant cet appel et ce que le résultat permet ensuite.
 
-## Slide 16 — Jouons la mission complète.
+## Slide 16 — La boucle décide quand appeler un outil et quand s’arrêter.
 
-27–30 min
-À dire : Une personne joue le modèle, une autre Python. Après chaque résultat, le groupe propose l’outil suivant.
-Question : Après la qualification critique, quelle suite faut-il justifier ?
-Réponse attendue : Créer le dossier puis demander la revue pour cet incident et cette action.
-Action : Annoncer les résultats : mesure ; procédure ; CRITICAL ; identifiant d’incident ; décision simulée. Aucun ordinateur requis.
+00:33–00:35
+Objectif : Expliquer la boucle avant son code.
+À dire : Les fonctions précédentes sont maintenant assemblées. Le modèle propose la suite ; Python garde les limites.
+Question : Quelles sont les deux sorties possibles d’un tour ?
+Réponse attendue : Un ou plusieurs appels d’outils, ou une réponse finale.
 
-## Slide 17 — Appliquer une règle connue, sans la réinventer.
+## Slide 17 — Assembler les abstractions sans masquer le mécanisme.
 
-30–32 min
-À dire : Nous séparons l’interprétation de la demande et l’application des règles. Le seuil est fixé par le scénario.
-Question : Qui calcule ici le niveau de risque ?
-Réponse attendue : L’outil Python. Le modèle lui transmet les mesures déjà vérifiées.
-Action : Rester sur la présentation.
+00:35–00:38
+Objectif : Montrer l’assemblage final.
+À dire : Chaque nom correspond à une idée déjà expliquée. La boucle devient lisible parce que les responsabilités sont séparées.
 
-## Slide 18 — Première panne : la mesure a changé en route.
+## Slide 18 — Une sortie structurée peut encore être fausse.
 
-32–34 min
-À dire : Faites voter : accepter ou refuser ? Puis demandez quelle preuve permet de trancher.
-Question : Pourquoi une simple validation de type ne suffit-elle pas ?
-Réponse attendue : Elle accepterait 5. Le contrôle de cohérence doit comparer avec les données réellement observées.
-Action : Rester sur la présentation.
+00:38–00:40
+Objectif : Élargir la validation au-delà du schéma.
+À dire : Un modèle peut produire un JSON parfaitement valide avec une température inventée. Il faut comparer avec la trace.
+Question : 5,0 est-il un argument valide pour une température ?
+Réponse attendue : Oui pour le type ; non pour la cohérence si le capteur a renvoyé 12,4.
 
-## Slide 19 — Le modèle dit « résolu ». Peut-on accepter sa réponse ?
+## Slide 19 — Refuser une mesure qui ne vient pas de l’observation.
 
-34–36 min
-À dire : Lisez la phrase du modèle. Laissez le groupe voter avant de commenter les preuves manquantes.
-Question : Peut-on accepter « résolu » ?
-Réponse attendue : Non. Le cas exige une revue, mais aucun accord correspondant n’a été enregistré.
-Action : Rester sur la présentation.
+00:40–00:43
+Objectif : Montrer un contrôle de provenance réel.
+À dire : Le type float ne suffit pas. Cette règle empêche le modèle de modifier silencieusement une observation.
 
-## Slide 20 — Autoriser la conclusion à partir des preuves.
+## Slide 20 — Le modèle dit « résolu ». Peut-on accepter sa réponse ?
 
-36–38 min
-À dire : Le dernier message n’est pas la preuve. C’est l’historique des opérations réussies qui permet d’autoriser la conclusion.
-Question : Un accord pour un autre incident suffit-il ?
-Réponse attendue : Non. La décision doit correspondre au dossier de cette exécution et à l’action proposée.
-Action : Rester sur la présentation.
+00:43–00:45
+Objectif : Montrer que la réponse finale est aussi contrôlée.
+À dire : Une phrase assurée ne remplace ni le dossier ni la revue. Le système doit donc bloquer cette conclusion.
+Question : Pourquoi le résultat correct est-il un arrêt ?
+Réponse attendue : Parce que les preuves requises pour conclure sont absentes.
 
-## Slide 21 — Éviter une boucle sans fin.
+## Slide 21 — Lier l’accord au bon incident et à la bonne action.
 
-38–40 min
-À dire : Ce choix est volontairement simple. Un autre produit pourrait prévoir des reprises, avec des limites explicites.
-Question : Pourquoi garder une limite même avec l’anti-répétition ?
-Réponse attendue : Le modèle pourrait varier les arguments et continuer indéfiniment.
-Action : Rester sur la présentation.
+00:45–00:47
+Objectif : Montrer la frontière de décision.
+À dire : Demander une revue ne suffit pas. Le programme vérifie la décision, son incident et son action.
 
-## Slide 22 — Retrouver la preuve derrière chaque étape.
+## Slide 22 — Un test utile vérifie le chemin, les preuves et l’arrêt.
 
-40–41 min
-À dire : La trace est notre journal de preuve. Choisissez une ligne et expliquez à quoi elle sert.
-Question : Trace et historique sont-ils identiques ?
-Réponse attendue : L’historique est transmis au modèle ; la trace sert à contrôler et examiner l’exécution.
-Action : Rester sur la présentation.
+00:47–00:48
+Objectif : Expliquer ce que mesure la suite d’évaluation.
+À dire : Nous testons le comportement du système, pas seulement la formulation de la dernière réponse.
 
 ## Slide 23 — Un test passe quand le comportement attendu est respecté.
 
-41–43 min
-À dire : Un arrêt attendu peut faire passer un test. Faisons la différence entre réussite de la mission et réussite du test.
-Question : Pourquoi missing_approval peut-il être PASS ?
-Réponse attendue : Parce que le comportement attendu est de refuser la conclusion sans approbation.
-Action : Rester sur la présentation.
+00:48–00:49
+Objectif : Lire un cas normal et un refus attendu.
+À dire : Le scénario approbation absente est PASS parce que le système produit review_required comme prévu.
+Question : Que doit-il arriver si l’on retire la protection correspondante ?
+Réponse attendue : Ce test doit échouer.
 
-## Slide 24 — Un test compare le comportement à une attente.
+## Slide 24 — Une architecture en cinq responsabilités.
 
-43–45 min
-À dire : Faites proposer un nouveau cas : par exemple une approbation donnée pour le mauvais incident.
-Question : Que devrait-il arriver si on retire une protection ?
-Réponse attendue : Le test qui dépend de cette protection doit échouer. Sinon, il ne la vérifie pas assez bien.
-Action : Rester sur la présentation.
+00:49
+Objectif : Consolider les acquis.
+À dire : Même sans avoir codé pendant la séance, vous pouvez maintenant lire la boucle, expliquer ses composants et identifier où placer un contrôle.
 
-## Slide 25 — Si Gemini ne répond pas, on garde le fil.
+## Slide 25 — Rejouer la démo, puis explorer l’implémentation complète.
 
-45–46 min
-À dire : Le mode doit être annoncé. Une simulation est utile, mais nous ne la présentons pas comme une réponse live.
-Question : Qu’évaluons-nous encore en mock ?
-Réponse attendue : L’orchestration, les preuves, les validations et les conditions d’arrêt.
-Action : Rester sur la présentation.
+00:49–00:50
+Objectif : Donner une suite adaptée à chaque niveau.
+À dire : Commencez par la démonstration guidée. Passez ensuite au notebook solution, puis au notebook participant si vous voulez reconstruire les décisions.
 
-## Slide 26 — Le notebook prolonge ce que vous venez d’expliquer.
+## Slide 26 — Une bonne réponse n’est pas une preuve d’exécution.
 
-46–48 min
-À dire : Pour refaire la démonstration, prenez la solution. Pour écrire les quatre décisions vous-mêmes, prenez le notebook participant.
-Question : Que lancer après une cellule qui définit une fonction ?
-Réponse attendue : La cellule qui appelle cette fonction ; une définition seule ne produit pas le résultat.
-Action : Afficher les liens cliquables. Colab facultatif : navigateur, connexion et compte Google ; pas d’installation Python sur Windows.
-
-## Slide 27 — Pouvez-vous expliquer un agent avec vos mots ?
-
-48–50 min
-À dire : Prenez une minute à deux. Puis recueillez deux exemples.
-Question : Dans votre métier, quel appel doit exiger un accord ?
-Réponse attendue : Une action concrète, un accord identifiable et un test qui bloque son absence.
-Action : Rester sur la présentation.
+00:50
+Objectif : Clore sur le transfert vers leurs projets.
+À dire : Laisser le QR et les ressources affichés.
